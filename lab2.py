@@ -7,9 +7,6 @@ import scipy.stats as st
 sb.set_theme(style="whitegrid")
 plt.rcParams['figure.figsize'] = (10, 6)
 
-# =============================================================================
-# ПАРАМЕТРЫ ВАРИАНТА 8
-# =============================================================================
 a = 0.0
 sigma2 = 4.0
 sigma = np.sqrt(sigma2)
@@ -21,10 +18,10 @@ gamma = 0.945
 np.random.seed(8)
 
 # ПУНКТ 1: N выборок по n наблюдений. Вычисление выборочных средних X_bar
-X_bar = np.empty(N)
+X_bar = np.empty(N) # массив из N элементов для хранения выборочных средних
 for i in range(N):
-    X_i = np.random.normal(a, sigma, n)
-    X_bar[i] = np.mean(X_i)
+    X_i = np.random.normal(a, sigma, n) # формируем выборку из n наблюдений
+    X_bar[i] = np.mean(X_i) # вычисляем выборочное среднее и сохраняем в массив X_bar
 
 print("\nПУНКТ 1: Смоделированы N выборок, вычислены выборочные средние.")
 print(f"Первые 5 значений X_bar: {X_bar[:5]}")
@@ -36,7 +33,7 @@ std_theor = sigma / np.sqrt(n) # = 2/sqrt(10) ≈ 0.632
 plt.figure()
 plt.hist(X_bar, bins='sturges', density=True, alpha=0.6, color='skyblue', edgecolor='black', label='Гистограмма X_bar')
 x_axis = np.linspace(min(X_bar), max(X_bar), 200)
-pdf_Xbar = st.norm.pdf(x_axis, mean_theor, std_theor)
+pdf_Xbar = st.norm.pdf(x_axis, mean_theor, std_theor) # это функция плотности нормального распределения
 plt.plot(x_axis, pdf_Xbar, 'r-', lw=2, label=f'Теоретическая N({a}, {sigma2/n:.2f})')
 plt.title('ПУНКТ 2: Гистограмма и теоретическая кривая для X_bar')
 plt.xlabel('X_bar')
@@ -55,9 +52,9 @@ plt.show()
 mean_Xbar = np.mean(X_bar)           # Выборочное среднее
 var_Xbar = np.var(X_bar, ddof=1)     # Выборочная исправленная дисперсия (несмещенная, делим на N-1)
 std_Xbar = np.std(X_bar, ddof=1)     # Выборочное исправленное стандартное отклонение
-median_Xbar = np.median(X_bar)       # Выборочная медиана (50-й перцентиль)
+median_Xbar = np.median(X_bar)       # Выборочная медиана
 skew_Xbar = st.skew(X_bar)           # Выборочный коэффициент асимметрии
-kurt_Xbar = st.kurtosis(X_bar)       # Выборочный коэффициент эксцесса (избыточный, минус 3)
+kurt_Xbar = st.kurtosis(X_bar)       # Выборочный коэффициент эксцесса 
 
 print("\nПУНКТ 4: Точечные оценки параметров для X_bar:")
 print(f"Выборочное среднее: {mean_Xbar:.4f} (теория a = {a})")
@@ -72,7 +69,7 @@ pct_gt_a = np.mean(X_bar > a) * 100
 print(f"\nПУНКТ 5: Доля значений X_bar > a = {pct_gt_a:.2f}%")
 
 # ПУНКТ 6: Выборочные дисперсии D_v
-D_v = np.empty(N)
+D_v = np.empty(N) # массив из N элементов для хранения выборочных дисперсий
 for i in range(N):
     X_i = np.random.normal(a, sigma, n)
     D_v[i] = np.var(X_i, ddof=0) # смещенная дисперсия (делим на n)
@@ -95,7 +92,7 @@ print(f"Число степеней свободы df = {df}")
 plt.figure()
 plt.hist(Y, bins='sturges', density=True, alpha=0.6, color='lightgreen', edgecolor='black', label='Гистограмма Y')
 y_axis = np.linspace(min(Y), max(Y), 200)
-pdf_Y = st.chi2.pdf(y_axis, df=df)
+pdf_Y = st.chi2.pdf(y_axis, df=df) # функция плотности хи-квадрат распределения
 plt.plot(y_axis, pdf_Y, 'r-', lw=2, label=f'Теоретическая χ²({df})')
 plt.title('ПУНКТ 9: Гистограмма и теоретическая кривая для Y')
 plt.xlabel('Y')
